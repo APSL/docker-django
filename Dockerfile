@@ -1,4 +1,4 @@
-FROM circusbase
+FROM apsl/circusbase
 MAINTAINER Bernardo Cabezas <bcabezas@apsl.net>
 
 #nginx
