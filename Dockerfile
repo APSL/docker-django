@@ -2,16 +2,28 @@ FROM apsl/circusbase
 MAINTAINER Bernardo Cabezas <bcabezas@apsl.net>
 
 #nginx
-RUN apt-get install nginx-full && apt-get clean
+RUN \
+    add-apt-repository -y ppa:nginx/stable && \
+    apt-get update && \
+    apt-get install nginx-full && \
+    apt-get clean
+ADD circus.d/nginx.ini /etc/circus.d/nginx.ini
+ADD conf/nginx.conf /etc/nginx/nginx.conf
+VOLUME /log
 
 # Things required for a python/pip environment
-RUN apt-get -y -q install git mercurial curl build-essential python python-dev python-distribute python-pip inetutils-ping dnsutils && apt-get clean
+RUN  \
+    apt-get -y -q install git mercurial curl build-essential && \
+    apt-get -y -q install python python-dev python-distribute python-pip && \
+    apt-get -y -q install inetutils-ping dnsutils && \
+    apt-get -y -q install libpq-dev libxml2-dev libxslt1-dev libssl-dev && \
+    apt-get clean
 
+# nodejs
 RUN \
-   echo "deb http://archive.ubuntu.com/ubuntu trusty main universe restricted" > /etc/sources.list ;\
-   echo "deb http://archive.ubuntu.com/ubuntu trusty-updates main restricted" >>/etc/apt/sources.list ;\
-   apt-get update && apt-get clean
-RUN apt-get -y -q install libpq-dev libxml2-dev libxslt1-dev libssl-dev && apt-get clean
+    apt-get install nodejs npm && apt-get clean && \
+    npm install -g less && \
+    ln -s /usr/bin/nodejs /usr/bin/node
 
 # nodejs 
 RUN \
@@ -21,11 +33,9 @@ RUN \
 
 # Upgrade pip
 RUN \
-    /usr/bin/pip --no-input install --upgrade pip;\
-    /usr/local/bin/pip install virtualenv
-
-#RUN pip install virtualenvwrapper
-RUN pip install chaussette 
+    pip --no-input install virtualenv && \
+    pip --no-input install virtualenvwrapper && \
+    pip --no-input install chaussette 
 
 # django user and dirs
 RUN \
@@ -42,9 +52,6 @@ RUN \
     echo "source ~/env/bin/activate" >> /code/.profile
     # END RUN
 
-ADD circus.d/nginx.ini /etc/circus.d/nginx.ini
 ADD circus.d/django.ini /etc/circus.d/django.ini
-ADD conf/nginx.conf /etc/nginx/nginx.conf
-VOLUME /log
 
 EXPOSE 8000 80
