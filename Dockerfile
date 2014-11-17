@@ -13,6 +13,12 @@ RUN \
    apt-get update && apt-get clean
 RUN apt-get -y -q install libpq-dev libxml2-dev libxslt1-dev libssl-dev && apt-get clean
 
+# nodejs 
+RUN \
+    apt-get install nodejs npm && apt-get clean && \
+    npm install -g less && \
+    ln -sf /usr/bin/nodejs /usr/bin/node
+
 # Upgrade pip
 RUN \
     /usr/bin/pip --no-input install --upgrade pip;\
