@@ -7,16 +7,19 @@ RUN \
     apt-get update && \
     apt-get install nginx-full && \
     apt-get clean
-ADD circus.d/nginx.ini /etc/circus.d/nginx.ini
+
+ADD circus.d/nginx.ini.tpl /etc/circus.d/
+ADD setup.d/nginx /etc/setup.d/30-nginx
 ADD conf/nginx.conf /etc/nginx/nginx.conf
-VOLUME /log
+#RUN chown www-data /logs
+VOLUME /logs
 
 # Things required for a python/pip environment
 RUN  \
     apt-get -y -q install git mercurial curl build-essential && \
     apt-get -y -q install python python-dev python-distribute python-pip && \
     apt-get -y -q install inetutils-ping dnsutils && \
-    apt-get -y -q install libpq-dev libxml2-dev libxslt1-dev libssl-dev && \
+    apt-get -y -q install libpq-dev libmysqlclient-dev libxml2-dev libxslt1-dev libssl-dev && \
     apt-get clean
 
 # nodejs
@@ -25,33 +28,28 @@ RUN \
     npm install -g less && \
     ln -s /usr/bin/nodejs /usr/bin/node
 
-# nodejs 
-RUN \
-    apt-get install nodejs npm && apt-get clean && \
-    npm install -g less && \
-    ln -sf /usr/bin/nodejs /usr/bin/node
-
-# Upgrade pip
-RUN \
-    pip --no-input install virtualenv && \
-    pip --no-input install virtualenvwrapper && \
-    pip --no-input install chaussette 
-
 # django user and dirs
 RUN \
     addgroup --system --gid 500 django;\
     adduser --system --shell /bin/bash --gecos 'Django app user' --uid 500 --gid 500 --disabled-password --home /code django ;\
     mkdir -p /data/media; mkdir -p /data/static ;\                             
     chown django.django /data -R 
+ADD setup.d/django /etc/setup.d/40-django
+ADD conf/bashrc /code/.bashrc
+RUN chown django.django /code -R
+ADD conf/manage /usr/local/bin/
 
-# prepare user profile to activate virtualenv. This way  "su -l django" wil have virtualenv activated.
+# virtualenv
 RUN \
-    echo "PIP_REQUIRE_VIRTUALENV=true" >> /code/.profile ;\
-    echo "PIP_RESPECT_VIRTUALENV=true" >> /code/.profile ;\
-    su -l -c "virtualenv --no-site-packages ~/env" django ;\
-    echo "source ~/env/bin/activate" >> /code/.profile
-    # END RUN
+    pip --no-input install virtualenv==1.11.6 && \
+    pip --no-input install pew==0.1.14 && \
+    pip --no-input install chaussette==1.2
 
-ADD circus.d/django.ini /etc/circus.d/django.ini
+# create Virtualenv
+ENV HOME /code
+ENV SHELL bash
+ENV WORKON_HOME /code
+RUN su -c "pew-new env -i ipython" django
 
+ADD circus.d/django.ini.tpl  /etc/circus.d/
 EXPOSE 8000 80

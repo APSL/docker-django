@@ -9,6 +9,9 @@ virtualenv = /code/env
 copy_env = True
 #stdout_stream.class = FancyStdoutStream
 #stdout_stream.color = green
+{% if (RUN_WEB | default('True')) == 'True' %}
+autostart = False
+{% endif %}
 
 [socket:django]
 host = 0.0.0.0

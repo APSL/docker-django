@@ -1,0 +1,5 @@
+#!/bin/sh
+
+echo "---> Config circusd django chaussette ..."
+
+envtpl /etc/circus.d/django.ini.tpl --keep-template --allow-missing
