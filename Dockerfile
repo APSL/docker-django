@@ -54,6 +54,7 @@ RUN \
 ENV HOME /code
 ENV SHELL bash
 ENV WORKON_HOME /code
+WORKDIR /code/src
 RUN su -c "pew-new env -i ipython" django
 
 ADD circus.d/django.ini.tpl  /etc/circus.d/
