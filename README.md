@@ -22,12 +22,13 @@ Docker image intended for use as a base image for django apps
 * Runs flower if `-e RUN_FLOWER=True` (see `circus.d/flower.ini.tpl`) https://github.com/APSL/docker-django/blob/master/circus.d/flower.ini.tpl
 
 Ports
-~~~~~
+=====
 
 * 80: nginx django app, serving static
 * 8000: chaussette wsgi server direct
 * 8084: flower
 * 8888: circus httpd web if `-e CIRCUS_HTTP=True` (see https://registry.hub.docker.com/u/apsl/circusbase/)
+
 
 Env vars:
 =========
