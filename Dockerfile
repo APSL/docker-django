@@ -34,10 +34,15 @@ RUN \
     adduser --system --shell /bin/bash --gecos 'Django app user' --uid 500 --gid 500 --disabled-password --home /code django ;\
     mkdir -p /data/media; mkdir -p /data/static ;\                             
     chown django.django /data -R 
+# django conf
 ADD setup.d/django /etc/setup.d/40-django
+ADD circus.d/celery_worker.ini.tpl /etc/circus.d/
+ADD circus.d/flower.ini.tpl /etc/circus.d/
 ADD conf/bashrc /code/.bashrc
 RUN chown django.django /code -R
 ADD conf/manage /usr/local/bin/
+
+# django celery
 
 # virtualenv
 RUN \
@@ -52,4 +57,6 @@ ENV WORKON_HOME /code
 RUN su -c "pew-new env -i ipython" django
 
 ADD circus.d/django.ini.tpl  /etc/circus.d/
-EXPOSE 8000 80
+
+# nginx django flower circusd
+EXPOSE 8000 80 8084 8888
