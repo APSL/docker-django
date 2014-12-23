@@ -1,5 +1,4 @@
 #!/bin/sh
-printenv 
 
 UID=$(id -u)
 CMD="pew-in env python manage.py $@"
@@ -7,7 +6,6 @@ CMD="pew-in env python manage.py $@"
 echo "---> Ejecutando  $CMD..."
 cd /code/src
 if [ $UID = 0 ]; then
-   echo "ID0!!!!"
    su -c "$CMD" django
 else
    sh -c "$CMD"
