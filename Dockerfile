@@ -16,6 +16,7 @@ VOLUME /logs
 
 # Things required for a python/pip environment
 RUN  \
+    apt-get update && \
     apt-get -y -q install git mercurial curl build-essential && \
     apt-get -y -q install python python-dev python-distribute python-pip && \
     apt-get -y -q install inetutils-ping dnsutils && \
@@ -43,7 +44,7 @@ RUN chown django.django /code -R
 ADD conf/manage /usr/local/bin/
 ADD conf/install_crons /usr/local/bin/
 RUN mkdir /usr/local/src/install_crons
-ADD conf/crons.template /usr/local/src/install_crons
+ADD conf/crons.template /usr/local/src/install_crons/
 RUN mkdir -p /logs/crons
 
 # django celery
