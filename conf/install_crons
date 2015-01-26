@@ -31,7 +31,7 @@ else:
 # Render the crontab file with jinja
 templateLoader = jinja2.FileSystemLoader( searchpath="conf" )
 templateEnv = jinja2.Environment( loader=templateLoader )
-template_filename = "/usr/local/src/crons.template"
+template_filename = "/usr/local/src/install_crons/crons.template"
 template = templateEnv.get_template( template_filename )
 crontab = template.render( crons_parsed=crons_parsed )
 
