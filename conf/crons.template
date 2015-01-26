@@ -1,8 +1,11 @@
 ###################################################################
 ## CRONTAB created on Docker build, do no edit by hand
 ###################################################################
+SHELL=/bin/sh
+PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+
 {% for command, attrs in crons_parsed.iteritems() %}
 ## {{ command }}
-{{ attrs.minute|default('*') }} {{ attrs.hour|default('*') }} {{ attrs.monthday|default('*') }} {{ attrs.month|default('*') }} {{ attrs.weekday|default('*') }}  su -c "pew-in env python manage.py {{ attrs.command }} {% for par in attrs.parameters %}{{par}} {%endfor%}" django  >>  /logs/crons/{{ command }}.log 2>&1
+{{ attrs.minute|default('*') }} {{ attrs.hour|default('*') }} {{ attrs.monthday|default('*') }} {{ attrs.month|default('*') }} {{ attrs.weekday|default('*') }} root  su -c "pew-in env python manage.py {{ attrs.command }} {% for par in attrs.parameters %}{{par}} {%endfor%}" django  >>  /logs/django_crons_{{ command }}.log 2>&1
 {% endfor %}
 

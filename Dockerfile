@@ -42,10 +42,13 @@ ADD circus.d/flower.ini.tpl /etc/circus.d/
 ADD conf/bashrc /code/.bashrc
 RUN chown django.django /code -R
 ADD conf/manage /usr/local/bin/
+
+# django crons
 ADD conf/install_crons /usr/local/bin/
 RUN mkdir /usr/local/src/install_crons
 ADD conf/crons.template /usr/local/src/install_crons/
-RUN mkdir -p /logs/crons
+ADD circus.d/crons.ini.tpl /etc/circus.d/
+ADD setup.d/crons /etc/setup.d/50-crons
 
 # django celery
 

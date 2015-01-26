@@ -1,0 +1,5 @@
+#!/bin/sh
+
+echo "---> Config crons ..."
+envtpl /etc/circus.d/crons.ini.tpl --keep-template --allow-missing
+install_crons

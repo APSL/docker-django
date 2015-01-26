@@ -29,12 +29,12 @@ else:
 
 
 # Render the crontab file with jinja
-templateLoader = jinja2.FileSystemLoader( searchpath="conf" )
+templateLoader = jinja2.FileSystemLoader( searchpath="/usr/local/src/install_crons" )
 templateEnv = jinja2.Environment( loader=templateLoader )
-template_filename = "/usr/local/src/install_crons/crons.template"
+template_filename = "crons.template"
 template = templateEnv.get_template( template_filename )
 crontab = template.render( crons_parsed=crons_parsed )
 
 # Install the new contrab to the django user
-cronfile = open('/etc/cron.d/django', 'w+')
+cronfile = open('/etc/crontab', 'w+')
 cronfile.write(crontab)
