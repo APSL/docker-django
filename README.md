@@ -20,7 +20,8 @@ Docker image intended for use as a base image for django apps
 * Runs django via chaussette wsgi server (see `circus.d/django.ini.tpl`) https://github.com/APSL/docker-django/blob/master/circus.d/django.ini.tpl
 * Runs celery worker if `-e RUN_CELERY=True` (see `circus.d/celery_worker.ini.tpl`) https://github.com/APSL/docker-django/blob/master/circus.d/celery_worker.ini.tpl
 * Runs flower if `-e RUN_FLOWER=True` (see `circus.d/flower.ini.tpl`) https://github.com/APSL/docker-django/blob/master/circus.d/flower.ini.tpl
-* Configure cron if `-e DJANGO_CRONS=True` (see `circus.d/crons.ini.tpl`) https://github.com/APSL/docker-django/blob/master/circus.d/crons.ini.tpl* Django crons controlled by /code/src/crons.yml definition file
+* Configure cron if `-e DJANGO_CRONS=True` (see `circus.d/crons.ini.tpl`) https://github.com/APSL/docker-django/blob/master/circus.d/crons.ini.tpl
+* Django crons controlled by /code/src/crons.yml definition file
 
 Ports
 =====
