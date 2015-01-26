@@ -41,6 +41,10 @@ ADD circus.d/flower.ini.tpl /etc/circus.d/
 ADD conf/bashrc /code/.bashrc
 RUN chown django.django /code -R
 ADD conf/manage /usr/local/bin/
+ADD conf/install_crons /usr/local/bin/
+RUN mkdir /usr/local/src/install_crons
+ADD conf/crons.template /usr/local/src/install_crons
+RUN mkdir -p /logs/crons
 
 # django celery
 
@@ -48,7 +52,8 @@ ADD conf/manage /usr/local/bin/
 RUN \
     pip --no-input install virtualenv==1.11.6 && \
     pip --no-input install pew==0.1.14 && \
-    pip --no-input install chaussette==1.2
+    pip --no-input install chaussette==1.2 && \
+    pip --no-input install PyYAML==3.11 # needed for install_crons
 
 # create Virtualenv
 ENV HOME /code
