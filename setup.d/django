@@ -6,5 +6,8 @@ envtpl /etc/circus.d/django.ini.tpl --keep-template --allow-missing
 echo "---> Config circusd celery worker ..."
 envtpl /etc/circus.d/celery_worker.ini.tpl --keep-template --allow-missing
 
+echo "---> Config circusd celery beat ..."
+envtpl /etc/circus.d/celery_beat.ini.tpl --keep-template --allow-missing
+
 echo "---> Config circusd flower ..."
 envtpl /etc/circus.d/flower.ini.tpl --keep-template --allow-missing

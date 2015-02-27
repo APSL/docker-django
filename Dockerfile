@@ -38,6 +38,7 @@ RUN \
 # django conf
 ADD setup.d/django /etc/setup.d/40-django
 ADD circus.d/celery_worker.ini.tpl /etc/circus.d/
+ADD circus.d/celery_beat.ini.tpl /etc/circus.d/
 ADD circus.d/flower.ini.tpl /etc/circus.d/
 ADD conf/bashrc /code/.bashrc
 RUN chown django.django /code -R

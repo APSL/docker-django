@@ -45,6 +45,22 @@ Celery worker concurrency. If not defined, uses num of cpus.
 
     -e CELERY_WORKER_CONCURRENCY=4
 
+Celery beat
+
+    -e RUN_CELERYBEAT=False
+    
+Celery beat scheduler type: file or class (default file)::
+
+    -e CELERYBEAT_SCHEDULE_TYPE=file
+    
+Celery beat scheduler file. (default /code/src/celerybeat-schedule)::
+
+    -e CELERYBEAT_SCHEDULE_FILE=/code/src/celerybeat-schedule
+    
+Celery beat scheduler class. (default djcelery.schedulers.DatabaseScheduler)::
+
+    -e CELERYBEAT_SCHEDULE_CLASS=djcelery.schedulers.DatabaseScheduler
+
 Celery Flower.
 
     -e RUN_FLOWER=False
